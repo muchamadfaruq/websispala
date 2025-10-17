@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SISPALA — Laporan Foto & Galeri</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(180deg, #0a192f, #1e3a8a 70%);
+            color: #fff;
+            font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto;
+            padding: 3rem 1rem;
+        }
+
+        .timeline {
+            position: relative;
+            margin: 2rem auto;
+            padding-left: 2rem;
+            border-left: 3px solid #3b82f6;
+            max-width: 720px;
+        }
+
+        .timeline-item {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -11px;
+            top: 0.4rem;
+            width: 14px;
+            height: 14px;
+            background: #3b82f6;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
+        }
+
+        .timeline-item h5 {
+            color: #60a5fa;
+            font-weight: 600
+        }
+
+        .timeline-item p {
+            opacity: 0.85
+        }
+
+        .btn-link-foto {
+            display: inline-block;
+            margin-top: 0.5rem;
+            background: #1e40af;
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background .2s;
+        }
+
+        .btn-link-foto:hover {
+            background: #3b82f6;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2 class="text-center mb-4">🗺️ Dokumentasi Foto & Video Kegiatan Sispala Dwisma 2025</h2>
+        <p class="text-center mb-5 text-light opacity-75">Berikut adalah rangkaian kegiatan beserta tautan galeri foto
+            masing-masing tahap kegiatan SISPALA.</p>
+
+        <!-- Isi Timeline -->
+
+        <div class="timeline">
+            <div class="timeline-item">
+                <h5>17 Oktober 2025</h5>
+                <p>Persiapan pembuatan lilin aroma terapi</p>
+                <a href="https://drive.google.com/drive/folders/1-XsWrBSBg9Fu2JbA7rj3Uwz6PZjqUGTt?usp=drive_link"
+                    class="btn-link-foto">Lihat Foto</a>
+            </div>
+
+            <div class="text-center mt-5">
+                <a href="index.html" class="btn btn-outline-light">⬅️ Kembali ke Halaman Utama</a>
+            </div>
+        </div>
+</body>
+
+</html>

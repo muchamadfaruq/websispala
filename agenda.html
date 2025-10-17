@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SISPALA — Kalender Agenda Kegiatan</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg1: #071033;
+            --card: #071a52;
+            --accent: #3b82f6;
+            --accent-2: #60a5fa;
+            --muted: rgba(255, 255, 255, 0.75);
+        }
+
+        body {
+            background: linear-gradient(180deg, var(--bg1), #0f244f 70%);
+            color: #fff;
+            min-height: 100vh;
+            font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+            padding: 2.5rem 1rem;
+        }
+
+        .container-card {
+            max-width: 980px;
+            margin: 0 auto;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+            border-radius: 14px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            box-shadow: 0 10px 30px rgba(2, 6, 23, 0.6);
+        }
+
+        .calendar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .month-title {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--accent-2);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.55rem;
+            margin-top: 1rem;
+        }
+
+        .day-name {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--muted);
+            padding: 0.45rem 0.25rem;
+        }
+
+        .date-cell {
+            min-height: 90px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 10px;
+            padding: 0.45rem;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            transition: transform .12s ease, box-shadow .12s ease;
+        }
+
+        .date-cell:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(11, 56, 120, 0.45);
+        }
+
+        .date-number {
+            position: absolute;
+            top: 8px;
+            left: 10px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #e6f0ff;
+        }
+
+        .event-dot {
+            display: block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-top: 6px;
+            background: var(--accent);
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
+        }
+
+        .events-list {
+            margin-top: 28px;
+            font-size: 0.82rem;
+            line-height: 1.05;
+        }
+
+        .events-list a {
+            color: var(--accent-2);
+            text-decoration: none;
+        }
+
+        .muted-note {
+            color: rgba(255, 255, 255, 0.65);
+            font-size: 0.9rem
+        }
+
+        /* small screens tweak */
+        @media (max-width:720px) {
+            .date-cell {
+                min-height: 78px
+            }
+
+            .events-list {
+                font-size: 0.78rem
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-card">
+        <div class="d-flex align-items-center justify-content-between mb-3 calendar-header">
+            <div>
+                <div class="d-flex align-items-center gap-3">
+                    <div class="avatar rounded-circle d-inline-grid"
+                        style="place-items:center; width:56px; height:56px; background:linear-gradient(135deg,var(--accent),var(--accent-2)); color:#071033; font-weight:700; font-size:20px">
+                        S</div>
+                    <div>
+                        <div class="text-white fw-bold">SISPALA — Kalender Agenda</div>
+                        <div class="muted-note">Lihat jadwal kegiatan dan buka galeri atau laporan tiap tanggal</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex gap-2 align-items-center">
+                <button id="prevBtn" class="btn btn-sm btn-outline-light"><i class="bi bi-chevron-left"></i></button>
+                <div class="month-title" id="monthTitle">Oktober 2025</div>
+                <button id="nextBtn" class="btn btn-sm btn-outline-light"><i class="bi bi-chevron-right"></i></button>
+            </div>
+        </div>
+
+        <!-- weekday names -->
+        <div class="calendar-grid" id="weekdayNames" aria-hidden="true">
+            <div class="day-name">Ming</div>
+            <div class="day-name">Sen</div>
+            <div class="day-name">Sel</div>
+            <div class="day-name">Rab</div>
+            <div class="day-name">Kam</div>
+            <div class="day-name">Jum</div>
+            <div class="day-name">Sab</div>
+        </div>
+
+        <!-- calendar -->
+        <div class="calendar-grid" id="calendarGrid" aria-live="polite"></div>
+
+        <div class="mt-4 d-flex justify-content-between align-items-center">
+            <div class="small-muted muted-note">Legenda: <span
+                    style="display:inline-block; width:10px; height:10px; margin:0 6px; background:var(--accent); border-radius:50%"></span>
+                Ada kegiatan</div>
+            <div>
+                <a href="index.html" class="btn btn-sm btn-outline-light"><i class="bi bi-arrow-left"></i> Kembali</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: show events for selected date -->
+    <div class="modal fade" id="eventsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content"
+                style="background: linear-gradient(180deg,#04102b,#072a5a); color:#fff; border:none;">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title" id="eventsModalLabel">Kegiatan - <span id="modalDateText"></span></h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Tutup"></button>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    <!-- event items inserted by JS -->
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // ---------- Data: ubah data di sini sesuai agenda riil ----------
+        // Format: 'YYYY-MM-DD': [ { title, desc, link } , ... ]
+        const EVENTS = {
+            "2025-10-16": [
+                { title: "Pembuatan Lilin SMAN 2 Mengwi", desc: "Pelatihan penggunaan Canva untuk guru - ruang lab komputer.", link: "https://example.com/galeri-workshop-canva" }
+            ],
+            "2025-10-19": [
+                { title: "Pembuatan Lilin SMAN 2 Mengwi", desc: "Pelatihan penggunaan Canva untuk guru - ruang lab komputer.", link: "https://example.com/galeri-workshop-canva" }
+            ],
+            "2025-10-23": [
+                { title: "Pembuatan Lilin SMAN 2 Mengwi", desc: "Pelatihan penggunaan Canva untuk guru - ruang lab komputer.", link: "https://example.com/galeri-workshop-canva" }
+            ],
+        };
+        // ---------- end data ----------
+
+        // Utility: format to local readable date (ID)
+        function formatDateReadable(date) {
+            return date.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+        }
+
+        // Calendar state
+        let viewDate = new Date(); // current viewed month
+
+        // DOM refs
+        const monthTitleEl = document.getElementById('monthTitle');
+        const calendarGrid = document.getElementById('calendarGrid');
+
+        function startOfMonth(d) {
+            return new Date(d.getFullYear(), d.getMonth(), 1);
+        }
+        function endOfMonth(d) {
+            return new Date(d.getFullYear(), d.getMonth() + 1, 0);
+        }
+
+        // Render calendar for current viewDate
+        function renderCalendar() {
+            calendarGrid.innerHTML = '';
+            const first = startOfMonth(viewDate);
+            const last = endOfMonth(viewDate);
+            const startWeekday = first.getDay(); // 0 = Sun, 1 = Mon, ...
+            const totalDays = last.getDate();
+
+            // update month title (Indonesian)
+            monthTitleEl.textContent = viewDate.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
+
+            // Fill leading empty cells (for previous month)
+            for (let i = 0; i < startWeekday; i++) {
+                const empty = document.createElement('div');
+                empty.className = 'date-cell';
+                empty.innerHTML = '<div class="date-number muted-note"></div>';
+                empty.style.background = 'transparent';
+                empty.style.border = '1px dashed rgba(255,255,255,0.02)';
+                calendarGrid.appendChild(empty);
+            }
+
+            // Fill days
+            for (let day = 1; day <= totalDays; day++) {
+                const cell = document.createElement('div');
+                cell.className = 'date-cell';
+                const cellDate = new Date(viewDate.getFullYear(), viewDate.getMonth(), day);
+                const iso = cellDate.toISOString().split('T')[0];
+
+                // Date number
+                const num = document.createElement('div');
+                num.className = 'date-number';
+                num.textContent = day;
+                cell.appendChild(num);
+
+                // If events exist on this date, show small dot + first event title snippet
+                if (EVENTS[iso]) {
+                    const dot = document.createElement('span');
+                    dot.className = 'event-dot';
+                    cell.appendChild(dot);
+
+                    const eventsList = document.createElement('div');
+                    eventsList.className = 'events-list';
+                    EVENTS[iso].slice(0, 2).forEach(ev => {
+                        const a = document.createElement('a');
+                        a.href = ev.link || '#';
+                        a.target = '_blank';
+                        a.rel = 'noopener';
+                        a.textContent = ev.title;
+                        eventsList.appendChild(a);
+                        eventsList.appendChild(document.createElement('br'));
+                    });
+                    // if more, show "+n"
+                    if (EVENTS[iso].length > 2) {
+                        const more = document.createElement('div');
+                        more.style.marginTop = '4px';
+                        more.style.fontSize = '0.78rem';
+                        more.style.color = 'rgba(255,255,255,0.75)';
+                        more.textContent = `+${EVENTS[iso].length - 2} lainnya`;
+                        eventsList.appendChild(more);
+                    }
+                    cell.appendChild(eventsList);
+
+                    // make whole cell clickable to open modal (instead of direct click to link)
+                    cell.style.cursor = 'pointer';
+                    cell.addEventListener('click', () => openEventsModal(iso));
+                } else {
+                    // No events: allow click to create quick note? for now, open modal saying kosong
+                    cell.addEventListener('click', () => openEventsModal(iso));
+                }
+
+                calendarGrid.appendChild(cell);
+            }
+
+            // Fill trailing empty cells to complete 7-column grid (optional)
+            const cellsNow = calendarGrid.children.length;
+            const remainder = (7 - (cellsNow % 7)) % 7;
+            for (let i = 0; i < remainder; i++) {
+                const empty = document.createElement('div');
+                empty.className = 'date-cell';
+                empty.style.background = 'transparent';
+                empty.style.border = '1px dashed rgba(255,255,255,0.02)';
+                calendarGrid.appendChild(empty);
+            }
+        }
+
+        // Modal logic
+        const eventsModal = new bootstrap.Modal(document.getElementById('eventsModal'));
+        const modalDateText = document.getElementById('modalDateText');
+        const modalBody = document.getElementById('modalBody');
+
+        function openEventsModal(isoDate) {
+            // isoDate is 'YYYY-MM-DD' string
+            const parts = isoDate.split('-');
+            const d = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+            modalDateText.textContent = formatDateReadable(d);
+            modalBody.innerHTML = '';
+
+            const evs = EVENTS[isoDate] || [];
+            if (evs.length === 0) {
+                const p = document.createElement('p');
+                p.className = 'muted-note';
+                p.textContent = 'Belum ada kegiatan untuk tanggal ini.';
+                modalBody.appendChild(p);
+                modalBody.appendChild(document.createElement('hr'));
+                const hint = document.createElement('p');
+                hint.className = 'muted-note';
+                hint.innerHTML = 'Kalau kamu admin, tambahkan entri di file <code>EVENTS</code> pada kode halaman ini untuk menampilkan kegiatan.';
+                modalBody.appendChild(hint);
+            } else {
+                evs.forEach(ev => {
+                    const wrap = document.createElement('div');
+                    wrap.className = 'mb-3';
+                    const title = document.createElement('h6');
+                    title.textContent = ev.title;
+                    title.style.color = 'var(--accent-2)';
+                    title.style.marginBottom = '5px';
+                    wrap.appendChild(title);
+
+                    const desc = document.createElement('div');
+                    desc.style.color = 'rgba(255,255,255,0.9)';
+                    desc.style.marginBottom = '6px';
+                    desc.textContent = ev.desc || '';
+                    wrap.appendChild(desc);
+
+                    if (ev.link) {
+                        const a = document.createElement('a');
+                        a.href = ev.link;
+                        a.target = '_blank';
+                        a.rel = 'noopener';
+                        a.className = 'btn btn-sm btn-outline-light';
+                        a.innerHTML = '<i class="bi bi-box-arrow-up-right"></i> Buka tautan';
+                        wrap.appendChild(a);
+                    }
+
+                    modalBody.appendChild(wrap);
+                    const hr = document.createElement('hr');
+                    hr.style.borderColor = 'rgba(255,255,255,0.03)';
+                    modalBody.appendChild(hr);
+                });
+            }
+
+            eventsModal.show();
+        }
+
+        // Navigation
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            viewDate = new Date(viewDate.getFullYear(), viewDate.getMonth() - 1, 1);
+            renderCalendar();
+        });
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            viewDate = new Date(viewDate.getFullYear(), viewDate.getMonth() + 1, 1);
+            renderCalendar();
+        });
+
+        // Initialize: set viewDate to month of today (or you can set specific month)
+        (function init() {
+            // optionally set to specific month (uncomment to force)
+            // viewDate = new Date(2025, 9, 1); // October 2025 (0-indexed months)
+            renderCalendar();
+        })();
+    </script>
+</body>
+
+</html>

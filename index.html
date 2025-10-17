@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SISPALA DWISMA</title>
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg1: #0a192f;
+            /* navy dark */
+            --bg2: #1e40af;
+            /* deep blue */
+            --accent: #3b82f6;
+            /* bright blue */
+        }
+
+        body {
+            background: linear-gradient(180deg, var(--bg1), #0f172a 70%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 1rem;
+            font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        }
+
+        .card-linktree {
+            width: 100%;
+            max-width: 520px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.03));
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 2.2rem;
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(30, 64, 175, 0.6);
+        }
+
+        .avatar {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            display: inline-grid;
+            place-items: center;
+            font-weight: 700;
+            font-size: 34px;
+            color: var(--bg1);
+            background: linear-gradient(135deg, var(--accent), #60a5fa);
+            box-shadow: 0 6px 18px rgba(59, 130, 246, 0.25);
+        }
+
+        .name {
+            font-size: 1.25rem;
+            font-weight: 700
+        }
+
+        .role {
+            opacity: 0.75;
+            font-size: 0.95rem
+        }
+
+        .btn-link-custom {
+            text-align: left;
+            padding: 0.95rem 1rem;
+            border-radius: 12px;
+            font-weight: 600;
+            letter-spacing: 0.2px;
+            transition: transform .12s ease, box-shadow .12s ease, background .2s;
+            background: linear-gradient(90deg, rgba(59, 130, 246, 0.15), rgba(59, 130, 246, 0.05));
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: #fff;
+        }
+
+        .btn-link-custom:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+            background: linear-gradient(90deg, rgba(59, 130, 246, 0.35), rgba(37, 99, 235, 0.2));
+        }
+
+        .small-muted {
+            opacity: 0.7;
+            font-size: 0.9rem
+        }
+
+        .tag {
+            background: rgba(59, 130, 246, 0.25);
+            padding: 0.2rem 0.5rem;
+            border-radius: 999px;
+            font-size: 0.75rem
+        }
+
+        @media (max-width:420px) {
+            .card-linktree {
+                padding: 1.6rem;
+                border-radius: 14px
+            }
+
+            .avatar {
+                width: 80px;
+                height: 80px;
+                font-size: 28px
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="card-linktree">
+        <div class="text-center mb-3">
+            <div class="avatar mx-auto">S</div>
+            <div class="mt-3">
+                <div class="name">SIDOKTER</div>
+                <div class="role small-muted">Sistem Dokumentasi Kegiatan Terintegrasi Sispala Dwisma</div>
+            </div>
+        </div>
+
+        <div class="d-grid gap-3 mb-3">
+            <a class="btn btn-link-custom btn-lg d-flex align-items-center justify-content-between" href="agenda.html"
+                rel="noopener">
+                <div>
+                    <div>📅 Agenda Kegiatan 2025</div>
+                    <div class="small-muted">Ringkasan agenda & lokasi</div>
+                </div>
+                <i class="bi bi-box-arrow-up-right fs-4"></i>
+            </a>
+
+            <a class="btn btn-link-custom btn-lg d-flex align-items-center justify-content-between" href="linkfoto.html"
+                rel="noopener">
+                <div>
+                    <div>🖼️ Laporan Foto & Galeri</div>
+                    <div class="small-muted">Dokumentasi visual kegiatan</div>
+                </div>
+                <i class="bi bi-image fs-4"></i>
+            </a>
+
+            <a class="btn btn-link-custom btn-lg d-flex align-items-center justify-content-between"
+                href="https://docs.google.com/spreadsheets/d/1vEoCswT7TAbZ3cy_SKycs-p7xGK7UdlGGKsYRJtr6Ek/edit?usp=sharing"
+                target="_blank" rel="noopener">
+                <div>
+                    <div>📚 Absensi SISPALA</div>
+                    <div class="small-muted">Manual & SOP</div>
+                </div>
+                <i class="bi bi-journal-bookmark fs-4"></i>
+            </a>
+
+            <a class="btn btn-link-custom btn-lg d-flex align-items-center justify-content-between"
+                href="https://example.com/laporan-pdf" target="_blank" rel="noopener">
+                <div>
+                    <div>📄 Laporan PDF (Unduh)</div>
+                    <div class="small-muted">Laporan resmi kegiatan</div>
+                </div>
+                <i class="bi bi-download fs-4"></i>
+            </a>
+
+            <a class="btn btn-link-custom btn-lg d-flex align-items-center justify-content-between"
+                href="https://wa.me/6287765881000?text=Halo%20SISPALA" target="_blank" rel="noopener">
+                <div>
+                    <div>💬 Kontak Koordinator (WhatsApp)</div>
+                    <div class="small-muted">Tanya jadwal atau kirim bukti</div>
+                </div>
+                <i class="bi bi-whatsapp fs-4"></i>
+            </a>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center small-muted mb-2">
+            <div class="d-flex gap-2 align-items-center">
+                <span class="tag">SISPALA</span>
+                <span> • </span>
+                <span>Terakhir diperbarui: 17 Okt 2025</span>
+            </div>
+            <div>
+                <button id="copyBtn" class="btn btn-sm btn-outline-light">Salin Link Halaman</button>
+            </div>
+        </div>
+
+        <div class="text-center small-muted">
+            <div>Butuh tampilan lain? Saya bisa bantu bikin versi warna sekolah Anda atau versi PDF untuk dicetak.</div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('copyBtn').addEventListener('click', function () {
+            const url = location.href;
+            navigator.clipboard?.writeText(url).then(() => {
+                this.innerText = 'Tersalin!';
+                setTimeout(() => this.innerText = 'Salin Link Halaman', 2000);
+            }).catch(() => {
+                alert('Salin otomatis gagal. Silakan salin secara manual: ' + url);
+            });
+        });
+    </script>
+</body>
+
+</html>
