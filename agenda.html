@@ -21,7 +21,7 @@
         }
 
         body {
-            background: linear-gradient(180deg, var(--bg1), #0f244f 70%);
+            background: url('/img/bg.jpg') no-repeat center/cover;
             color: #fff;
             min-height: 100vh;
             font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
@@ -31,11 +31,12 @@
         .container-card {
             max-width: 980px;
             margin: 0 auto;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+            background: rgba(7, 16, 51, 0.85);
             border-radius: 14px;
             padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            box-shadow: 0 10px 30px rgba(2, 6, 23, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
         }
 
         .calendar-header {
@@ -211,6 +212,12 @@
             "2025-10-23": [
                 { title: "Pembuatan Lilin SMAN 2 Mengwi", desc: "LAB Biologi SMA Negeri 2 Mengwi", link: "#" }
             ],
+            "2026-01-09": [
+                { title: "Latihan Fisik", desc: "-", link: "#" }
+            ],
+            "2026-01-23": [
+                { title: "Latihan Fisik", desc: "-", link: "#" }
+            ],
             "2026-01-31": [
                 { title: "Outing Mangrove & Penyu", desc: "Pelantikan Anggota Baru & Pengurus 2026", link: "#" }
             ],
@@ -261,8 +268,10 @@
             for (let day = 1; day <= totalDays; day++) {
                 const cell = document.createElement('div');
                 cell.className = 'date-cell';
-                const cellDate = new Date(viewDate.getFullYear(), viewDate.getMonth(), day);
-                const iso = cellDate.toISOString().split('T')[0];
+                const year = viewDate.getFullYear();
+                const month = String(viewDate.getMonth() + 1).padStart(2, '0');
+                const dayStr = String(day).padStart(2, '0');
+                const iso = `${year}-${month}-${dayStr}`;
 
                 // Date number
                 const num = document.createElement('div');
